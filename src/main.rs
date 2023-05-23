@@ -1,6 +1,7 @@
 mod interface;
 
 mod security;
+use sanitizer::Sanitize;
 use security::security::SecurityModule;
 
 mod database;
@@ -42,6 +43,8 @@ fn db_is_online() -> &'static str {
 
 #[post("/registernewdevice", format="application/json", data="<login>")]
 fn register_device(login:Json<RegisterNewDevice>) -> String {
+    let mut login = login.into_inner();
+    login.sanitize();
     get_api_implementation().register_user(&login.device_id, &login.app_version, &login.app_hash)   
 }
 
@@ -75,10 +78,11 @@ fn rocket() -> _ {
         *SEC_MODULE.lock().unwrap() = SecurityModule::new(CA_PATH, PK_PATH);
     }
 
-    rocket::build().mount("/api", routes![
-        hello, 
-        db_is_online, 
-        register_device,
+    rocket::build()
+        .mount("/api", routes![
+            hello, 
+            db_is_online, 
+            register_device,
         ])
         .register("/api", catchers![
             endpoint_api_404,

@@ -2,13 +2,28 @@ pub mod requests {
     use rocket::serde::{Deserialize, Serialize};
     use sanitizer::prelude::*;
 
+    fn version_sanitizer(field: &str) -> String {
+        let mut result : String = String::new();
+        if field.len() > 16 {
+            return result;
+        }
+        for ch in field.chars() {
+            if ch == '.' || ch >= '0' && ch <= '9' {
+                result.push(ch);
+            } 
+        }
+        if result.ends_with('.') {
+            result.pop();
+        }
+        result
+    }
 
     #[derive(Deserialize, Sanitize)]
     #[serde(crate="rocket::serde")]
     pub struct RegisterNewDevice {
         #[sanitize(trim, lower_case, alphanumeric)]
         pub app_hash: String,
-        #[sanitize(trim, lower_case, alphanumeric)]
+        #[sanitize(trim, lower_case, custom(version_sanitizer))]
         pub app_version: String,
         #[sanitize(trim, lower_case, alphanumeric)]
         pub device_id: String,
