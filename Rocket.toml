@@ -1,0 +1,11 @@
+[default]
+address = "0.0.0.0"
+port = 8800
+limits = {form = "64 kB", json = "2 MiB"}
+ident = "RustPolyDET"
+
+[debug]
+secret_key = "71o79BuZr1mz1i61e35WtF7Ul71ICmfOy4s2Qy6Erjc="
+
+[release]
+secret_key = "bQRhaA/dE8D2Vwn/2NNVqXi5nuPXoxfiKrqN+AWhgk4="
