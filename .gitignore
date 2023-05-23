@@ -1,1 +1,4 @@
 /target
+.vscode
+ca_cert.pem
+pk.key

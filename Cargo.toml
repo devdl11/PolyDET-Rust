@@ -1,9 +1,22 @@
 [package]
-name = "PolyPlanRustBackend"
+name = "poly_plan_rust_backend"
 version = "0.1.0"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-rocket = "=0.5.0-rc.3"
+# web api
+rocket = {version="=0.5.0-rc.3", features=["json", "secrets"]}
+# mysql
+mysql = "24.0.0"
+mysql_common = "0.30.4"
+# datetime
+chrono = "0.4.24"
+# security
+rcgen = {version="0.10.0", features=["pem", "x509-parser"]}
+rsa = "0.9.2"
+sanitizer = {version="0.1.6", features = ["derive"]}
+# utility
+version-compare = "0.1.1"
+base64 = "0.21.0"
